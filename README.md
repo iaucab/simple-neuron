@@ -34,3 +34,11 @@ x2=9
 # output
 y=1
 ```
+
+### Alternative command
+
+You can run an alternative method, that use the middle point of the dataset
+
+```sh
+python3 main.py middle
+```
