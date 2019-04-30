@@ -1,7 +1,14 @@
+import sys
+
 from neuron import Neuron
 import dataset
 
 neuron = Neuron()
+
+if len(sys.argv) > 1 and sys.argv[1] == "middle":
+  my_dataset = dataset.get_middle(dataset.test_data)
+else:
+  my_dataset = dataset.test_data
 
 print("Please, wait a minute")
 
@@ -10,7 +17,7 @@ while not end:
 
   m_error = 0
   
-  for data in dataset.test_data:
+  for data in my_dataset:
     neuron.set_x(data.x)
     neuron.set_y(data.y)
 
@@ -20,14 +27,14 @@ while not end:
 
     neuron.update()
   
-  #print("Medium error:", m_error / len(dataset.test_data))
+  #print("Medium error:", m_error / len(my_dataset))
 
-  if m_error / len(dataset.test_data) < 0.01:
+  if m_error / len(my_dataset) < 0.01:
     end = True
 
 neuron.print_me()
 print("Test data:")
-for data in dataset.test_data:
+for data in my_dataset:
   neuron.set_x(data.x)
   y = neuron.calc_y()
   print("Expected:", data.y, "Received:", y)

@@ -23,31 +23,37 @@ test_data = [
   data_point([6.7,6.6], 0)
 ]
 
-AND = [
-  data_point([0,0], 0),
-  data_point([1,0], 0),
-  data_point([0,1], 0),
-  data_point([0,0], 1)
-]
-
-OR = [
-  data_point([0,0], 0),
-  data_point([1,0], 1),
-  data_point([0,1], 1),
-  data_point([0,0], 1)
-]
-
-bin2dec = [
-  data_point([0,0,0], 0),
-  data_point([0,0,1], 1),
-  data_point([0,1,0], 2),
-  data_point([0,1,1], 3),
-  data_point([1,0,0], 4),
-  data_point([1,0,1], 5),
-  data_point([1,1,0], 6),
-  data_point([1,1,1], 7)
-]
-
 def print_data(dataset):
   for data in dataset:
     print(data.x[0], data.x[1], data.y)
+
+def middle_point(dataset):
+  length = len(dataset[0].x)
+  count = [0,0]
+
+  r = [
+    [0 for i in range(length)], # y = 0
+    [0 for i in range(length)]  # y = 1
+  ]
+  
+  for data in dataset:
+    count[data.y] += 1
+    for i in range(len(data.x)):
+      r[data.y][i] += data.x[i]
+  
+  return [
+    (
+      [
+        (r[k][i] / count[k]) for i in range(length)
+      ] if count[k] > 0 else r[k]
+    ) for k in range(len(r))
+  ]
+
+def get_middle(dataset):
+
+  x = middle_point(dataset)
+
+  return [
+    data_point(x[0], 0),
+    data_point(x[1], 1)
+  ]
